@@ -1,0 +1,92 @@
+/* Reset */
+*, *::after, *::before { padding: 0; margin: 0; box-sizing: border-box; }
+:root { --dark-color: #000; --leaf-green: #0f0; --flower-pink: #ff6fa3; }
+
+body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--dark-color);
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+body.not-loaded * {
+  animation-play-state: paused !important;
+}
+
+/* Night background */
+.night {
+  position: fixed;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, transparent 0%, var(--dark-color) 70%), 
+              radial-gradient(circle at bottom, rgba(145,233,255,0.2), var(--dark-color));
+  filter: blur(0.1vmin);
+  z-index: 1;
+}
+
+/* Flowers container */
+.flowers { position: relative; transform: scale(0.7); z-index: 2; }
+
+/* General flower */
+.flower { position: absolute; bottom: 10vmin; transform-origin: bottom center; z-index: 10; --fl-speed: 0.8s; }
+
+/* Flower stems and lines */
+.flower__line { width: 0.3vmin; background: var(--leaf-green); position: relative; animation: grow-stem 1.5s forwards; }
+.flower__line__leaf {
+  width: 1vmin; height: 2vmin; background: var(--leaf-green); position: absolute; top: 0;
+  transform-origin: left bottom;
+}
+
+/* Individual flowers animations */
+.flower--1 { left: 30%; animation: swing-flower-1 4s ease-in-out infinite; }
+.flower--2 { left: 50%; animation: swing-flower-2 5s ease-in-out infinite; }
+.flower--3 { left: 70%; animation: swing-flower-3 4.5s ease-in-out infinite; }
+
+/* Leaves bloom animations */
+.flower__line__leaf--1 { animation: bloom-right var(--fl-speed) 1s forwards; }
+.flower__line__leaf--2 { animation: bloom-left var(--fl-speed) 1.2s forwards; }
+.flower__line__leaf--3 { animation: bloom-right var(--fl-speed) 1.4s forwards; }
+.flower__line__leaf--4 { animation: bloom-left var(--fl-speed) 1.6s forwards; }
+.flower__line__leaf--5 { animation: bloom-right var(--fl-speed) 1.8s forwards; }
+.flower__line__leaf--6 { animation: bloom-left var(--fl-speed) 2s forwards; }
+
+/* Flower swing animations */
+@keyframes swing-flower-1 { 0%,100%{transform:rotate(2deg);}50%{transform:rotate(-2deg);} }
+@keyframes swing-flower-2 { 0%,100%{transform:rotate(18deg);}50%{transform:rotate(14deg);} }
+@keyframes swing-flower-3 { 0%,100%{transform:rotate(-18deg);}50%{transform:rotate(-20deg) rotateY(-10deg);} }
+
+/* Leaf bloom */
+@keyframes bloom-right { 0% { transform: rotate(70deg) scale(0); opacity:0; } 100% { transform: rotate(0deg) scale(1); opacity:1; } }
+@keyframes bloom-left { 0% { transform: rotate(-70deg) scale(0); opacity:0; } 100% { transform: rotate(0deg) scale(1); opacity:1; } }
+
+/* Stem growth */
+@keyframes grow-stem { 0% { height:0; } 100% { height:70vmin; } }
+
+/* Additional flower leaf petals */
+.flower__leafs { position: absolute; width: 2vmin; height: 2vmin; background: var(--flower-pink); border-radius: 50%; top: -2vmin; left: -0.5vmin; opacity:0; animation: petals-bloom 1s forwards; }
+.flower__leafs--1 { animation-delay: 2s; }
+.flower__leafs--2 { animation-delay: 2.3s; }
+.flower__leafs--3 { animation-delay: 2.6s; }
+
+@keyframes petals-bloom { 0%{transform:scale(0); opacity:0;} 100%{transform:scale(1); opacity:1;} }
+
+/* Night sparkle lights */
+.night::after {
+  content: '';
+  position: absolute; top:0; left:0; width:100%; height:100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 10px 10px;
+  animation: sparkle 6s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes sparkle {
+  0%{background-position:0 0;}
+  100%{background-position:100px 100px;}
+}
